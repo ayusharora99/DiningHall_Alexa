@@ -28,4 +28,4 @@ If User says no: Enjoy your late night meal!
 
 If User says yes: In addition to the main dish, college nine and ten offers ______, ______, _______, and _______. Delicioso!
 
-Else no main dish: go to sleep _name_, for late night, college nine and ten offers ______, ______, _______, and _______. Bon Appetit!
+Else no main dish: go to sleep dumbass, for late night, college nine and ten offers ______, ______, _______, and _______. Bon Appetit!
