@@ -36,7 +36,7 @@ htmlMeals = page_content.find_all('td', attrs={'valign': 'top'})
 meals = ''
 
 for i in range(0, len(htmlMeals)):
-    meals = meals + htmlMeals[i].text
+	meals = meals + htmlMeals[i].text
 
 b = meals.split("Lunch")
 breakfast = b[0]
@@ -71,54 +71,64 @@ if lateNightHappening:
         if s in lateNight and s not in lateNightList:
             lateNightList.append(s)
 
+endBreakfastWord = breakfastList[len(breakfastList)-1]
+endBreakfastIndex = textcontent.index(endBreakfastWord) + 1
+endBreakfast = textcontent[0:endBreakfastIndex]
+
+startLunchIndex = endBreakfastIndex
+endLunchWord = lunchList[len(lunchList)-1]
+endLunchIndex = textcontent.index(endLunchWord) + 1
+endLunch = textcontent[startLunchIndex:endLunchIndex]
+
+startDinnerIndex = endLunchIndex
+endDinnerWord = dinnerList[len(dinnerList)-1]
+endDinnerIndex = textcontent.index(endDinnerWord) + 1
+endDinner = textcontent[startDinnerIndex:endDinnerIndex]
+
+if lateNightHappening:
+	startLateNightIndex = endDinnerIndex
+	endLateNightWord = LateNightList[len(dinnerList)-1]
+	endLateNightIndex = textcontent.index(endLateNightWord) + 1
+	endLateNight = textcontent[startLateNightIndex:endLateNightIndex]
+
+print(endBreakfast)
+
+print(endLunch)
+
+print(endDinner)
+
+if lateNightHappening:
+	print(lateNightHappening)
+
 bf = open("breakfast.txt", "w")
 lun = open("lunch.txt", "w")
 din = open("dinner.txt", "w")
 if lateNightHappening:
 	late = open("lateNight.txt", "w")
 
-for i in range(len(breakfastList)):
-	if(i < len(breakfastList)-1):
-		bf.write(breakfastList[i] + ", ")
+for i in range(len(endBreakfast)):
+	if(i < len(endBreakfast)-1):
+		bf.write(endBreakfast[i] + ", ")
 	else:
-		bf.write(breakfastList[i] + ".")
+		bf.write(endBreakfast[i] + ".")
 
-for i in range(len(lunchList)):
-	if(i < len(lunchList)-1):
-		lun.write(lunchList[i] + ", ")
+for i in range(len(endLunch)):
+	if(i < len(endLunch)-1):
+		lun.write(endLunch[i] + ", ")
 	else:
-		lun.write(lunchList[i] + ".")
+		lun.write(endLunch[i] + ".")
 
-for i in range(len(dinnerList)):
-	if(i < len(dinnerList)-1):
-		din.write(dinnerList[i] + ", ")
+for i in range(len(endDinner)):
+	if(i < len(endDinner)-1):
+		din.write(endDinner[i] + ", ")
 	else:
-		din.write(dinnerList[i] + ".")
+		din.write(endDinner[i] + ".")
 
 if lateNightHappening:
-	for i in range(len(lateNightList)):
-		if(i < len(lunchList)-1):
-			late.write(lateNightList[i] + ", ")
+	for i in range(len(endLateNight)):
+		if(i < len(endLateNight)-1):
+			late.write(endLateNight[i] + ", ")
 		else:
-			late.write(lateNightList[i] + ".")
-
-# print("Breakfast:")
-# print(breakfastList)
-
-# print()
-
-# print("Lunch:")
-# print(lunchList)
-
-# print()
-
-# print("Dinner:")
-# print(dinnerList)
-
-# print()
-
-# if lateNightHappening:
-#     print("Late Night:")
-#     print(lateNightList)
+			late.write(endLateNight[i] + ".")
 
 
