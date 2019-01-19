@@ -71,23 +71,54 @@ if lateNightHappening:
         if s in lateNight and s not in lateNightList:
             lateNightList.append(s)
 
-print("Breakfast:")
-print(breakfastList)
+bf = open("breakfast.txt", "w")
+lun = open("lunch.txt", "w")
+din = open("dinner.txt", "w")
+if lateNightHappening:
+	late = open("lateNight.txt", "w")
 
-print()
+for i in range(len(breakfastList)):
+	if(i < len(breakfastList)-1):
+		bf.write(breakfastList[i] + ", ")
+	else:
+		bf.write(breakfastList[i] + ".")
 
-print("Lunch:")
-print(lunchList)
+for i in range(len(lunchList)):
+	if(i < len(lunchList)-1):
+		lun.write(lunchList[i] + ", ")
+	else:
+		lun.write(lunchList[i] + ".")
 
-print()
-
-print("Dinner:")
-print(dinnerList)
-
-print()
+for i in range(len(dinnerList)):
+	if(i < len(dinnerList)-1):
+		din.write(dinnerList[i] + ", ")
+	else:
+		din.write(dinnerList[i] + ".")
 
 if lateNightHappening:
-    print("Late Night:")
-    print(lateNightList)
+	for i in range(len(lateNightList)):
+		if(i < len(lunchList)-1):
+			late.write(lateNightList[i] + ", ")
+		else:
+			late.write(lateNightList[i] + ".")
+
+# print("Breakfast:")
+# print(breakfastList)
+
+# print()
+
+# print("Lunch:")
+# print(lunchList)
+
+# print()
+
+# print("Dinner:")
+# print(dinnerList)
+
+# print()
+
+# if lateNightHappening:
+#     print("Late Night:")
+#     print(lateNightList)
 
 
