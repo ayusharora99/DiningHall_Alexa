@@ -5,8 +5,8 @@ from boto.s3.connection import S3Connection, Bucket, Key
 import boto3
 from botocore.client import Config
 
-ACCESS_KEY_ID = 'AKIAIIPWOMURNAW6MAQA'
-ACCESS_SECRET_KEY = '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'
+ACCESS_KEY_ID = ''
+ACCESS_SECRET_KEY = ''
 BUCKET_NAME = 'dininghall'
 
 s3 = boto3.resource(
