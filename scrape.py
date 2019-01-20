@@ -5,8 +5,6 @@ from boto.s3.connection import S3Connection, Bucket, Key
 import boto3
 from botocore.client import Config
 
-ACCESS_KEY_ID = 'AKIAIIPWOMURNAW6MAQA'
-ACCESS_SECRET_KEY = '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'
 BUCKET_NAME = 'dininghall'
 
 s3 = boto3.resource(
@@ -15,6 +13,10 @@ s3 = boto3.resource(
 	aws_secret_access_key=ACCESS_SECRET_KEY,
 	config=Config(signature_version='s3v4')
 )
+
+bucket = s3.Bucket('dininghall')
+
+bucket.objects.all().delete()
 
 def getNineTenMeals():
 
@@ -119,30 +121,38 @@ def getNineTenMeals():
 	if lateNightHappening:
 		late = open("NineTenlateNight.txt", "w")
 
-	for i in range(len(endBreakfast)):
-		if(i < len(endBreakfast)-1):
-			bf.write(endBreakfast[i] + ", ")
+	for i in range(len(breakfastList)):
+		if '&' in breakfastList[i]:
+			breakfastList[i].replace("&", "and")
+		if(i < len(breakfastList) - 1):
+			bf.write(breakfastList[i] + ", ")
 		else:
-			bf.write(endBreakfast[i] + ".")
+			bf.write("and " + breakfastList[i])
 
-	for i in range(len(endLunch)):
-		if(i < len(endLunch)-1):
-			lun.write(endLunch[i] + ", ")
+	for i in range(len(lunchList)):
+		if '&' in lunchList[i]:
+			lunchList[i].replace("&", "and")
+		if(i < len(lunchList) - 1):
+			lun.write(lunchList[i] + ", ")
 		else:
-			lun.write(endLunch[i] + ".")
+			lun.write("and " + lunchList[i])
 
-	for i in range(len(endDinner)):
-		if(i < len(endDinner)-1):
-			din.write(endDinner[i] + ", ")
+	for i in range(len(dinnerList)):
+		if '&' in dinnerList[i]:
+			dinnerList[i].replace("&", "and")
+		if(i < len(dinnerList) - 1):
+			din.write(dinnerList[i] + ", ")
 		else:
-			din.write(endDinner[i] + ".")
+			din.write("and " + dinnerList[i])
 
 	if lateNightHappening:
-		for i in range(len(endLateNight)):
-			if(i < len(endLateNight)-1):
-				late.write(endLateNight[i] + ", ")
+		for i in range(len(lateNightList)):
+			if '&' in lateNightList[i]:
+				lateNightList[i].replace("&", "and")
+			if(i < len(lateNightList) - 1):
+				ln.write(lateNightList[i] + ", ")
 			else:
-				late.write(endLateNight[i] + ".")
+				ln.write("and " + lateNightList[i])
 
 	bf.close()
 	lun.close()
@@ -234,6 +244,7 @@ def getCowellStevensonMeals():
 	breakfast = re.sub(r'\W+', ' ', breakfast)
 	lunch = re.sub(r'\W+', ' ', lunch)
 	dinner = re.sub(r'\W+', ' ', dinner)
+
 	if lateNightHappening:
 	    lateNight = re.sub(r'\W+', ' ', lateNight)
 
@@ -254,20 +265,6 @@ def getCowellStevensonMeals():
 	        if s in lateNight and s not in lateNightList:
 	            lateNightList.append(s)
 
-	endBreakfastWord = breakfastList[len(breakfastList)-1]
-	endBreakfastIndex = textcontent.index(endBreakfastWord) + 1
-	endBreakfast = textcontent[0:endBreakfastIndex]
-
-	startLunchIndex = endBreakfastIndex
-	endLunchWord = lunchList[len(lunchList)-1]
-	endLunchIndex = textcontent.index(endLunchWord) + 1
-	endLunch = textcontent[startLunchIndex:endLunchIndex]
-
-	startDinnerIndex = endLunchIndex
-	endDinnerWord = dinnerList[len(dinnerList)-1]
-	endDinnerIndex = textcontent.index(endDinnerWord) + 1
-	endDinner = textcontent[startDinnerIndex:endDinnerIndex]
-
 	if lateNightHappening:
 		startLateNightIndex = endDinnerIndex
 		endLateNightWord = LateNightList[len(dinnerList)-1]
@@ -283,30 +280,38 @@ def getCowellStevensonMeals():
 	if lateNightHappening:
 		late = open("CowellStevensonlateNight.txt", "w")
 
-	for i in range(len(endBreakfast)):
-		if(i < len(endBreakfast)-1):
-			bf.write(endBreakfast[i] + ", ")
+	for i in range(len(breakfastList)):
+		if '&' in breakfastList[i]:
+			breakfastList[i].replace("&", "and")
+		if(i < len(breakfastList) - 1):
+			bf.write(breakfastList[i] + ", ")
 		else:
-			bf.write(endBreakfast[i] + ".")
+			bf.write("and " + breakfastList[i])
 
-	for i in range(len(endLunch)):
-		if(i < len(endLunch)-1):
-			lun.write(endLunch[i] + ", ")
+	for i in range(len(lunchList)):
+		if '&' in lunchList[i]:
+			lunchList[i].replace("&", "and")
+		if(i < len(lunchList) - 1):
+			lun.write(lunchList[i] + ", ")
 		else:
-			lun.write(endLunch[i] + ".")
+			lun.write("and " + lunchList[i])
 
-	for i in range(len(endDinner)):
-		if(i < len(endDinner)-1):
-			din.write(endDinner[i] + ", ")
+	for i in range(len(dinnerList)):
+		if '&' in dinnerList[i]:
+			dinnerList[i].replace("&", "and")
+		if(i < len(dinnerList) - 1):
+			din.write(dinnerList[i] + ", ")
 		else:
-			din.write(endDinner[i] + ".")
+			din.write("and " + dinnerList[i])
 
 	if lateNightHappening:
-		for i in range(len(endLateNight)):
-			if(i < len(endLateNight)-1):
-				late.write(endLateNight[i] + ", ")
+		for i in range(len(lateNightList)):
+			if '&' in lateNightList[i]:
+				lateNightList[i].replace("&", "and")
+			if(i < len(lateNightList) - 1):
+				ln.write(lateNightList[i] + ", ")
 			else:
-				late.write(endLateNight[i] + ".")
+				ln.write("and " + lateNightList[i])
 
 	bf.close()
 	lun.close()
@@ -434,30 +439,38 @@ def getCrownMerrilMeals():
 	if lateNightHappening:
 		late = open("CrownMerrillateNight.txt", "w")
 
-	for i in range(len(endBreakfast)):
-		if(i < len(endBreakfast)-1):
-			bf.write(endBreakfast[i] + ", ")
+	for i in range(len(breakfastList)):
+		if '&' in breakfastList[i]:
+			breakfastList[i].replace("&", "and")
+		if(i < len(breakfastList) - 1):
+			bf.write(breakfastList[i] + ", ")
 		else:
-			bf.write(endBreakfast[i] + ".")
+			bf.write("and " + breakfastList[i])
 
-	for i in range(len(endLunch)):
-		if(i < len(endLunch)-1):
-			lun.write(endLunch[i] + ", ")
+	for i in range(len(lunchList)):
+		if '&' in lunchList[i]:
+			lunchList[i].replace("&", "and")
+		if(i < len(lunchList) - 1):
+			lun.write(lunchList[i] + ", ")
 		else:
-			lun.write(endLunch[i] + ".")
+			lun.write("and " + lunchList[i])
 
-	for i in range(len(endDinner)):
-		if(i < len(endDinner)-1):
-			din.write(endDinner[i] + ", ")
+	for i in range(len(dinnerList)):
+		if '&' in dinnerList[i]:
+			dinnerList[i].replace("&", "and")
+		if(i < len(dinnerList) - 1):
+			din.write(dinnerList[i] + ", ")
 		else:
-			din.write(endDinner[i] + ".")
+			din.write("and " + dinnerList[i])
 
 	if lateNightHappening:
-		for i in range(len(endLateNight)):
-			if(i < len(endLateNight)-1):
-				late.write(endLateNight[i] + ", ")
+		for i in range(len(lateNightList)):
+			if '&' in lateNightList[i]:
+				lateNightList[i].replace("&", "and")
+			if(i < len(lateNightList) - 1):
+				ln.write(lateNightList[i] + ", ")
 			else:
-				late.write(endLateNight[i] + ".")
+				ln.write("and " + lateNightList[i])
 
 	bf.close()
 	lun.close()
@@ -582,30 +595,38 @@ def getPorterKresgeMeals():
 	if lateNightHappening:
 		late = open("PorterKresgelateNight.txt", "w")
 
-	for i in range(len(endBreakfast)):
-		if(i < len(endBreakfast)-1):
-			bf.write(endBreakfast[i] + ", ")
+	for i in range(len(breakfastList)):
+		if '&' in breakfastList[i]:
+			breakfastList[i].replace("&", "and")
+		if(i < len(breakfastList) - 1):
+			bf.write(breakfastList[i] + ", ")
 		else:
-			bf.write(endBreakfast[i] + ".")
+			bf.write("and " + breakfastList[i])
 
-	for i in range(len(endLunch)):
-		if(i < len(endLunch)-1):
-			lun.write(endLunch[i] + ", ")
+	for i in range(len(lunchList)):
+		if '&' in lunchList[i]:
+			lunchList[i].replace("&", "and")
+		if(i < len(lunchList) - 1):
+			lun.write(lunchList[i] + ", ")
 		else:
-			lun.write(endLunch[i] + ".")
+			lun.write("and " + lunchList[i])
 
-	for i in range(len(endDinner)):
-		if(i < len(endDinner)-1):
-			din.write(endDinner[i] + ", ")
+	for i in range(len(dinnerList)):
+		if '&' in dinnerList[i]:
+			dinnerList[i].replace("&", "and")
+		if(i < len(dinnerList) - 1):
+			din.write(dinnerList[i] + ", ")
 		else:
-			din.write(endDinner[i] + ".")
+			din.write("and " + dinnerList[i])
 
 	if lateNightHappening:
-		for i in range(len(endLateNight)):
-			if(i < len(endLateNight)-1):
-				late.write(endLateNight[i] + ", ")
+		for i in range(len(lateNightList)):
+			if '&' in lateNightList[i]:
+				lateNightList[i].replace("&", "and")
+			if(i < len(lateNightList) - 1):
+				ln.write(lateNightList[i] + ", ")
 			else:
-				late.write(endLateNight[i] + ".")
+				ln.write("and " + lateNightList[i])
 
 	bf.close()
 	lun.close()
@@ -730,30 +751,38 @@ def getCarsonOakesMeals():
 	if lateNightHappening:
 		late = open("CarsonOakeslateNight.txt", "w")
 
-	for i in range(len(endBreakfast)):
-		if(i < len(endBreakfast)-1):
-			bf.write(endBreakfast[i] + ", ")
+	for i in range(len(breakfastList)):
+		if '&' in breakfastList[i]:
+			breakfastList[i].replace("&", "and")
+		if(i < len(breakfastList) - 1):
+			bf.write(breakfastList[i] + ", ")
 		else:
-			bf.write(endBreakfast[i] + ".")
+			bf.write("and " + breakfastList[i])
 
-	for i in range(len(endLunch)):
-		if(i < len(endLunch)-1):
-			lun.write(endLunch[i] + ", ")
+	for i in range(len(lunchList)):
+		if '&' in lunchList[i]:
+			lunchList[i].replace("&", "and")
+		if(i < len(lunchList) - 1):
+			lun.write(lunchList[i] + ", ")
 		else:
-			lun.write(endLunch[i] + ".")
+			lun.write("and " + lunchList[i])
 
-	for i in range(len(endDinner)):
-		if(i < len(endDinner)-1):
-			din.write(endDinner[i] + ", ")
+	for i in range(len(dinnerList)):
+		if '&' in dinnerList[i]:
+			dinnerList[i].replace("&", "and")
+		if(i < len(dinnerList) - 1):
+			din.write(dinnerList[i] + ", ")
 		else:
-			din.write(endDinner[i] + ".")
+			din.write("and " + dinnerList[i])
 
 	if lateNightHappening:
-		for i in range(len(endLateNight)):
-			if(i < len(endLateNight)-1):
-				late.write(endLateNight[i] + ", ")
+		for i in range(len(lateNightList)):
+			if '&' in lateNightList[i]:
+				lateNightList[i].replace("&", "and")
+			if(i < len(lateNightList) - 1):
+				ln.write(lateNightList[i] + ", ")
 			else:
-				late.write(endLateNight[i] + ".")
+				ln.write("and " + lateNightList[i])
 
 	bf.close()
 	lun.close()
