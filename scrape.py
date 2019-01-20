@@ -1,6 +1,20 @@
 from bs4 import BeautifulSoup
 import requests
 import re
+from boto.s3.connection import S3Connection, Bucket, Key
+import boto3
+from botocore.client import Config
+
+ACCESS_KEY_ID = 'AKIAIIPWOMURNAW6MAQA'
+ACCESS_SECRET_KEY = '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'
+BUCKET_NAME = 'dininghall'
+
+s3 = boto3.resource(
+	's3',
+	aws_access_key_id=ACCESS_KEY_ID,
+	aws_secret_access_key=ACCESS_SECRET_KEY,
+	config=Config(signature_version='s3v4')
+)
 
 def getNineTenMeals():
 
@@ -39,6 +53,9 @@ def getNineTenMeals():
 
 	for i in range(0, len(htmlMeals)):
 		meals = meals + htmlMeals[i].text
+
+	if len(meals) == 0:
+		return
 
 	b = meals.split("Lunch")
 	breakfast = b[0]
@@ -127,6 +144,42 @@ def getNineTenMeals():
 			else:
 				late.write(endLateNight[i] + ".")
 
+	bf.close()
+	lun.close()
+	din.close()
+	if lateNightHappening:
+		late.close()
+
+	if not lateNightHappening:
+		filenames = ['NineTenbreakfast.txt', 'NineTenlunch.txt', 'NineTendinner.txt']
+	else:
+		filenames = ['NineTenbreakfast.txt', 'NineTenlunch.txt', 'NineTendinner.txt', 'NineTenlateNight.txt']
+
+	conn = S3Connection(aws_access_key_id=ACCESS_KEY_ID, aws_secret_access_key=ACCESS_SECRET_KEY)
+
+	for fname in filenames:
+	    bucket = conn.get_bucket("dininghall")
+	    content = open(fname, 'r')
+	    read_data = content.read()
+	    key = bucket.new_key(fname).set_contents_from_string(read_data)
+	    print ("uploaded file %s" % fname)
+
+	# bre = open('NineTenbreakfast.txt', 'r+')
+	# lu = open('NineTenlunch.txt', 'r+')
+	# di = open('NineTendinner.txt', 'r+')
+	# if lateNightHappening:
+	# 	la = open('NineTenlateNight.txt', 'r+')
+	# blob = bre.read()
+	# ting = lu.read()
+	# skra = di.read()
+	# if lateNightHappening:
+	# 	popop = la.read()
+	# s3.Bucket(BUCKET_NAME).put_object(Key='NineTenbreakfast.txt', Body=blob)
+	# s3.Bucket(BUCKET_NAME).put_object(Key='NineTenlunch.txt', Body=lu)
+	# # s3.Bucket(BUCKET_NAME).put_object(Key='NineTendinner.txt', Body=di)
+	# # if lateNightHappening:
+	# 	# s3.Bucket(BUCKET_NAME).put_object(Key='NineTenlateNight.txt', Body=popop)
+
 def getCowellStevensonMeals():
 
 	page_link = "https://nutrition.sa.ucsc.edu/menuSamp.asp?locationNum=05&locationName=Cowell+Stevenson+Dining+Hall&sName=&naFlag="
@@ -164,6 +217,9 @@ def getCowellStevensonMeals():
 
 	for i in range(0, len(htmlMeals)):
 		meals = meals + htmlMeals[i].text
+
+	if len(meals) == 0:
+		return
 
 	b = meals.split("Lunch")
 	breakfast = b[0]
@@ -252,6 +308,29 @@ def getCowellStevensonMeals():
 			else:
 				late.write(endLateNight[i] + ".")
 
+	bf.close()
+	lun.close()
+	din.close()
+	if lateNightHappening:
+		late.close()
+
+	if lateNightHappening:
+		late.close()
+
+	if not lateNightHappening:
+		filenames = ['CowellStevensonbreakfast.txt', 'CowellStevensonlunch.txt', 'CowellStevensondinner.txt']
+	else:
+		filenames = ['CowellStevensonbreakfast.txt', 'CowellStevensonlunch.txt', 'CowellStevensondinner.txt', 'CowellStevensonlateNight.txt']
+
+	conn = S3Connection(aws_access_key_id=ACCESS_KEY_ID, aws_secret_access_key=ACCESS_SECRET_KEY)
+
+	for fname in filenames:
+	    bucket = conn.get_bucket("dininghall")
+	    content = open(fname, 'r')
+	    read_data = content.read()
+	    key = bucket.new_key(fname).set_contents_from_string(read_data)
+	    print ("uploaded file %s" % fname)
+
 def getCrownMerrilMeals():
 
 	page_link = "https://nutrition.sa.ucsc.edu/menuSamp.asp?locationNum=20&locationName=Crown+Merrill+Dining+Hall&sName=&naFlag="
@@ -289,6 +368,9 @@ def getCrownMerrilMeals():
 
 	for i in range(0, len(htmlMeals)):
 		meals = meals + htmlMeals[i].text
+
+	if len(meals) == 0:
+		return
 
 	b = meals.split("Lunch")
 	breakfast = b[0]
@@ -377,6 +459,26 @@ def getCrownMerrilMeals():
 			else:
 				late.write(endLateNight[i] + ".")
 
+	bf.close()
+	lun.close()
+	din.close()
+	if lateNightHappening:
+		late.close()
+
+	if not lateNightHappening:
+		filenames = ['CrownMerrilbreakfast.txt', 'CrownMerrillunch.txt', 'CrownMerrildinner.txt']
+	else:
+		filenames = ['CrownMerrilbreakfast.txt', 'CrownMerrillunch.txt', 'CrownMerrildinner.txt', 'CrownMerrillateNight.txt']
+
+	conn = S3Connection(aws_access_key_id=ACCESS_KEY_ID, aws_secret_access_key=ACCESS_SECRET_KEY)
+
+	for fname in filenames:
+	    bucket = conn.get_bucket("dininghall")
+	    content = open(fname, 'r')
+	    read_data = content.read()
+	    key = bucket.new_key(fname).set_contents_from_string(read_data)
+	    print ("uploaded file %s" % fname)
+
 def getPorterKresgeMeals():
 
 	page_link = "https://nutrition.sa.ucsc.edu/menuSamp.asp?locationNum=25&locationName=Porter+Kresge+Dining+Hall&sName=&naFlag="
@@ -414,6 +516,9 @@ def getPorterKresgeMeals():
 
 	for i in range(0, len(htmlMeals)):
 		meals = meals + htmlMeals[i].text
+
+	if len(meals) == 0:
+		return
 
 	b = meals.split("Lunch")
 	breakfast = b[0]
@@ -502,6 +607,26 @@ def getPorterKresgeMeals():
 			else:
 				late.write(endLateNight[i] + ".")
 
+	bf.close()
+	lun.close()
+	din.close()
+	if lateNightHappening:
+		late.close()
+
+	if not lateNightHappening:
+		filenames = ['PorterKresgebreakfast.txt', 'PorterKresgelunch.txt', 'PorterKresgedinner.txt']
+	else:
+		filenames = ['PorterKresgebreakfast.txt', 'PorterKresgelunch.txt', 'PorterKresgedinner.txt', 'PorterKresgelateNight.txt']
+
+	conn = S3Connection(aws_access_key_id=ACCESS_KEY_ID, aws_secret_access_key=ACCESS_SECRET_KEY)
+
+	for fname in filenames:
+	    bucket = conn.get_bucket("dininghall")
+	    content = open(fname, 'r')
+	    read_data = content.read()
+	    key = bucket.new_key(fname).set_contents_from_string(read_data)
+	    print ("uploaded file %s" % fname)
+
 def getCarsonOakesMeals():
 
 	page_link = "https://nutrition.sa.ucsc.edu/menuSamp.asp?locationNum=30&locationName=Rachel+Carson+Oakes+Dining+Hall&sName=&naFlag="
@@ -539,6 +664,9 @@ def getCarsonOakesMeals():
 
 	for i in range(0, len(htmlMeals)):
 		meals = meals + htmlMeals[i].text
+
+	if len(meals) == 0:
+		return
 
 	b = meals.split("Lunch")
 	breakfast = b[0]
@@ -626,6 +754,26 @@ def getCarsonOakesMeals():
 				late.write(endLateNight[i] + ", ")
 			else:
 				late.write(endLateNight[i] + ".")
+
+	bf.close()
+	lun.close()
+	din.close()
+	if lateNightHappening:
+		late.close()
+
+	if not lateNightHappening:
+		filenames = ['CarsonOakesbreakfast.txt', 'CarsonOakeslunch.txt', 'CarsonOakesdinner.txt']
+	else:
+		filenames = ['CarsonOakesbreakfast.txt', 'CarsonOakeslunch.txt', 'CarsonOakesdinner.txt', 'CarsonOakeslateNight.txt']
+
+	conn = S3Connection(aws_access_key_id=ACCESS_KEY_ID, aws_secret_access_key=ACCESS_SECRET_KEY)
+
+	for fname in filenames:
+	    bucket = conn.get_bucket("dininghall")
+	    content = open(fname, 'r')
+	    read_data = content.read()
+	    key = bucket.new_key(fname).set_contents_from_string(read_data)
+	    print ("uploaded file %s" % fname)
 
 getNineTenMeals()
 
