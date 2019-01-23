@@ -320,7 +320,8 @@ const handlers = {
             this.response.speak("There is no late night available at " + dininghall + ".")
             this.emit(':responseReady')
         } else {
-            this.response.speak("I didn't understand what you're asking for. Try again by saying, 'Alexa open UCSC dining hall' and asking again")
+            this.response.speak("I didn't understand what you're asking for. Try again by saying, 'Alexa open Sammy's kitchen' and asking again")
+            this.emit(':responseReady')
         }
     
         }catch(err){
@@ -328,13 +329,17 @@ const handlers = {
         }
     },
     'AMAZON.HelpIntent': function () {
-
+        this.emit(':ask', 'Which meal at which dining hall would you like to hear about? ')
     },
     'AMAZON.CancelIntent': function () {
-
+        this.emit('SessionEndRequest');
     },
     'AMAZON.StopIntent': function () {
- 
+        this.emit('SessionEndRequest');
+    },
+    'SessionEndRequest': function() {
+        const speech_output = 'Goodbye and take care!'
+        this.emit(':tell', speech_output);
     },
     'Unhandled': function () {
         this.emit(':ask', "this is a help messsage for unhandled", "this is a help messsage for unhandled");

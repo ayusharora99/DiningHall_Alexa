@@ -5,10 +5,6 @@ from boto.s3.connection import S3Connection, Bucket, Key
 import boto3
 from botocore.client import Config
 
-ACCESS_KEY_ID = 'AKIAIIPWOMURNAW6MAQA'
-ACCESS_SECRET_KEY = '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'
-BUCKET_NAME = 'dininghall'
-
 s3 = boto3.resource(
 	's3',
 	aws_access_key_id=ACCESS_KEY_ID,
@@ -69,6 +65,7 @@ def getNineTenMeals():
 	ln = dinner.split("Late Night")
 	if len(ln) > 1:
 	    lateNight = ln[1]
+	    dinner = ln[0]
 	    lateNightHappening = True
 
 	breakfast = re.sub(r'\W+', ' ', breakfast)
@@ -93,29 +90,6 @@ def getNineTenMeals():
 	    for s in textcontent:
 	        if s in lateNight and s not in lateNightList:
 	            lateNightList.append(s)
-
-	endBreakfastWord = breakfastList[len(breakfastList)-1]
-	endBreakfastIndex = textcontent.index(endBreakfastWord) + 1
-	endBreakfast = textcontent[0:endBreakfastIndex]
-
-	startLunchIndex = endBreakfastIndex
-	endLunchWord = lunchList[len(lunchList)-1]
-	endLunchIndex = textcontent.index(endLunchWord) + 1
-	endLunch = textcontent[startLunchIndex:endLunchIndex]
-
-	startDinnerIndex = endLunchIndex
-	endDinnerWord = dinnerList[len(dinnerList)-1]
-	endDinnerIndex = textcontent.index(endDinnerWord) + 1
-	endDinner = textcontent[startDinnerIndex:endDinnerIndex]
-
-	if lateNightHappening:
-		startLateNightIndex = endDinnerIndex
-		endLateNightWord = LateNightList[len(dinnerList)-1]
-		endLateNightIndex = textcontent.index(endLateNightWord) + 1
-		endLateNight = textcontent[startLateNightIndex:endLateNightIndex]
-
-	if lateNightHappening:
-		print(lateNightHappening)
 
 	bf = open("NineTenbreakfast.txt", "w")
 	lun = open("NineTenlunch.txt", "w")
@@ -152,9 +126,9 @@ def getNineTenMeals():
 			if '&' in lateNightList[i]:
 				lateNightList[i].replace("&", "and")
 			if(i < len(lateNightList) - 1):
-				ln.write(lateNightList[i] + ", ")
+				late.write(lateNightList[i] + ", ")
 			else:
-				ln.write("and " + lateNightList[i])
+				late.write("and " + lateNightList[i])
 
 	bf.close()
 	lun.close()
@@ -175,22 +149,6 @@ def getNineTenMeals():
 	    read_data = content.read()
 	    key = bucket.new_key(fname).set_contents_from_string(read_data)
 	    print ("uploaded file %s" % fname)
-
-	# bre = open('NineTenbreakfast.txt', 'r+')
-	# lu = open('NineTenlunch.txt', 'r+')
-	# di = open('NineTendinner.txt', 'r+')
-	# if lateNightHappening:
-	# 	la = open('NineTenlateNight.txt', 'r+')
-	# blob = bre.read()
-	# ting = lu.read()
-	# skra = di.read()
-	# if lateNightHappening:
-	# 	popop = la.read()
-	# s3.Bucket(BUCKET_NAME).put_object(Key='NineTenbreakfast.txt', Body=blob)
-	# s3.Bucket(BUCKET_NAME).put_object(Key='NineTenlunch.txt', Body=lu)
-	# # s3.Bucket(BUCKET_NAME).put_object(Key='NineTendinner.txt', Body=di)
-	# # if lateNightHappening:
-	# 	# s3.Bucket(BUCKET_NAME).put_object(Key='NineTenlateNight.txt', Body=popop)
 
 def getCowellStevensonMeals():
 
@@ -241,6 +199,7 @@ def getCowellStevensonMeals():
 	ln = dinner.split("Late Night")
 	if len(ln) > 1:
 	    lateNight = ln[1]
+	    dinner = ln[0]
 	    lateNightHappening = True
 
 	breakfast = re.sub(r'\W+', ' ', breakfast)
@@ -266,15 +225,6 @@ def getCowellStevensonMeals():
 	    for s in textcontent:
 	        if s in lateNight and s not in lateNightList:
 	            lateNightList.append(s)
-
-	if lateNightHappening:
-		startLateNightIndex = endDinnerIndex
-		endLateNightWord = LateNightList[len(dinnerList)-1]
-		endLateNightIndex = textcontent.index(endLateNightWord) + 1
-		endLateNight = textcontent[startLateNightIndex:endLateNightIndex]
-
-	if lateNightHappening:
-		print(lateNightHappening)
 
 	bf = open("CowellStevensonbreakfast.txt", "w")
 	lun = open("CowellStevensonlunch.txt", "w")
@@ -311,9 +261,9 @@ def getCowellStevensonMeals():
 			if '&' in lateNightList[i]:
 				lateNightList[i].replace("&", "and")
 			if(i < len(lateNightList) - 1):
-				ln.write(lateNightList[i] + ", ")
+				late.write(lateNightList[i] + ", ")
 			else:
-				ln.write("and " + lateNightList[i])
+				late.write("and " + lateNightList[i])
 
 	bf.close()
 	lun.close()
@@ -387,6 +337,7 @@ def getCrownMerrilMeals():
 	ln = dinner.split("Late Night")
 	if len(ln) > 1:
 	    lateNight = ln[1]
+	    dinner = ln[0]
 	    lateNightHappening = True
 
 	breakfast = re.sub(r'\W+', ' ', breakfast)
@@ -411,29 +362,6 @@ def getCrownMerrilMeals():
 	    for s in textcontent:
 	        if s in lateNight and s not in lateNightList:
 	            lateNightList.append(s)
-
-	endBreakfastWord = breakfastList[len(breakfastList)-1]
-	endBreakfastIndex = textcontent.index(endBreakfastWord) + 1
-	endBreakfast = textcontent[0:endBreakfastIndex]
-
-	startLunchIndex = endBreakfastIndex
-	endLunchWord = lunchList[len(lunchList)-1]
-	endLunchIndex = textcontent.index(endLunchWord) + 1
-	endLunch = textcontent[startLunchIndex:endLunchIndex]
-
-	startDinnerIndex = endLunchIndex
-	endDinnerWord = dinnerList[len(dinnerList)-1]
-	endDinnerIndex = textcontent.index(endDinnerWord) + 1
-	endDinner = textcontent[startDinnerIndex:endDinnerIndex]
-
-	if lateNightHappening:
-		startLateNightIndex = endDinnerIndex
-		endLateNightWord = LateNightList[len(dinnerList)-1]
-		endLateNightIndex = textcontent.index(endLateNightWord) + 1
-		endLateNight = textcontent[startLateNightIndex:endLateNightIndex]
-
-	if lateNightHappening:
-		print(lateNightHappening)
 
 	bf = open("CrownMerrilbreakfast.txt", "w")
 	lun = open("CrownMerrillunch.txt", "w")
@@ -470,9 +398,9 @@ def getCrownMerrilMeals():
 			if '&' in lateNightList[i]:
 				lateNightList[i].replace("&", "and")
 			if(i < len(lateNightList) - 1):
-				ln.write(lateNightList[i] + ", ")
+				late.write(lateNightList[i] + ", ")
 			else:
-				ln.write("and " + lateNightList[i])
+				late.write("and " + lateNightList[i])
 
 	bf.close()
 	lun.close()
@@ -543,6 +471,7 @@ def getPorterKresgeMeals():
 	ln = dinner.split("Late Night")
 	if len(ln) > 1:
 	    lateNight = ln[1]
+	    dinner = ln[0]
 	    lateNightHappening = True
 
 	breakfast = re.sub(r'\W+', ' ', breakfast)
@@ -567,29 +496,6 @@ def getPorterKresgeMeals():
 	    for s in textcontent:
 	        if s in lateNight and s not in lateNightList:
 	            lateNightList.append(s)
-
-	endBreakfastWord = breakfastList[len(breakfastList)-1]
-	endBreakfastIndex = textcontent.index(endBreakfastWord) + 1
-	endBreakfast = textcontent[0:endBreakfastIndex]
-
-	startLunchIndex = endBreakfastIndex
-	endLunchWord = lunchList[len(lunchList)-1]
-	endLunchIndex = textcontent.index(endLunchWord) + 1
-	endLunch = textcontent[startLunchIndex:endLunchIndex]
-
-	startDinnerIndex = endLunchIndex
-	endDinnerWord = dinnerList[len(dinnerList)-1]
-	endDinnerIndex = textcontent.index(endDinnerWord) + 1
-	endDinner = textcontent[startDinnerIndex:endDinnerIndex]
-
-	if lateNightHappening:
-		startLateNightIndex = endDinnerIndex
-		endLateNightWord = LateNightList[len(dinnerList)-1]
-		endLateNightIndex = textcontent.index(endLateNightWord) + 1
-		endLateNight = textcontent[startLateNightIndex:endLateNightIndex]
-
-	if lateNightHappening:
-		print(lateNightHappening)
 
 	bf = open("PorterKresgebreakfast.txt", "w")
 	lun = open("PorterKresgelunch.txt", "w")
@@ -626,9 +532,9 @@ def getPorterKresgeMeals():
 			if '&' in lateNightList[i]:
 				lateNightList[i].replace("&", "and")
 			if(i < len(lateNightList) - 1):
-				ln.write(lateNightList[i] + ", ")
+				late.write(lateNightList[i] + ", ")
 			else:
-				ln.write("and " + lateNightList[i])
+				late.write("and " + lateNightList[i])
 
 	bf.close()
 	lun.close()
@@ -699,6 +605,7 @@ def getCarsonOakesMeals():
 	ln = dinner.split("Late Night")
 	if len(ln) > 1:
 	    lateNight = ln[1]
+	    dinner = ln[0]
 	    lateNightHappening = True
 
 	breakfast = re.sub(r'\W+', ' ', breakfast)
@@ -723,29 +630,6 @@ def getCarsonOakesMeals():
 	    for s in textcontent:
 	        if s in lateNight and s not in lateNightList:
 	            lateNightList.append(s)
-
-	endBreakfastWord = breakfastList[len(breakfastList)-1]
-	endBreakfastIndex = textcontent.index(endBreakfastWord) + 1
-	endBreakfast = textcontent[0:endBreakfastIndex]
-
-	startLunchIndex = endBreakfastIndex
-	endLunchWord = lunchList[len(lunchList)-1]
-	endLunchIndex = textcontent.index(endLunchWord) + 1
-	endLunch = textcontent[startLunchIndex:endLunchIndex]
-
-	startDinnerIndex = endLunchIndex
-	endDinnerWord = dinnerList[len(dinnerList)-1]
-	endDinnerIndex = textcontent.index(endDinnerWord) + 1
-	endDinner = textcontent[startDinnerIndex:endDinnerIndex]
-
-	if lateNightHappening:
-		startLateNightIndex = endDinnerIndex
-		endLateNightWord = LateNightList[len(dinnerList)-1]
-		endLateNightIndex = textcontent.index(endLateNightWord) + 1
-		endLateNight = textcontent[startLateNightIndex:endLateNightIndex]
-
-	if lateNightHappening:
-		print(lateNightHappening)
 
 	bf = open("CarsonOakesbreakfast.txt", "w")
 	lun = open("CarsonOakeslunch.txt", "w")
@@ -782,9 +666,9 @@ def getCarsonOakesMeals():
 			if '&' in lateNightList[i]:
 				lateNightList[i].replace("&", "and")
 			if(i < len(lateNightList) - 1):
-				ln.write(lateNightList[i] + ", ")
+				late.write(lateNightList[i] + ", ")
 			else:
-				ln.write("and " + lateNightList[i])
+				late.write("and " + lateNightList[i])
 
 	bf.close()
 	lun.close()
